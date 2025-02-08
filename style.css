@@ -51,3 +51,37 @@ h1{
     background-color: #218838;
 }
 
+#task-list{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+.task{
+    list-style-type: none;
+}
+
+.delete-btn{
+  background-color: rgb(224, 36, 36);
+  color: white;
+  border:none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover{
+    background-color: #c92424;
+}
+
+.edit-btn{
+    background-color: #6c24e0;
+    color: white;
+    border:none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer; 
+}
+
+.edit-btn:hover{
+    background-color: rgb(65, 57, 177);
+}

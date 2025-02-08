@@ -15,17 +15,24 @@ function addTask() {
     taskId++;
 
     let li = document.createElement("li");
+    li.classList.add("task");
     li.id = "task" + taskId; 
     li.innerHTML = `
      <span>${taskText}</span>
      <button class="delete-btn">Delete</button>
+     <button class="edit-btn">Edit</button>
   `
   let deleteBtn = li.querySelector(".delete-btn");
   deleteBtn.addEventListener("click", function (){
     let taskToDelete = document.getElementById(li.id);
     taskToDelete.remove();
   })
+
+  let editBtn = li.querySelector(".edit-btn");
+
     taskList.appendChild(li);
+    taskList.appendChild(deleteBtn);
+    taskList.appendChild(editBtn);
     taskInput.value = "";
 }
 

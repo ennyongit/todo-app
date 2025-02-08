@@ -4,6 +4,7 @@ let taskList = document.getElementById("task-list");
 
 let taskId = 0;
 
+// 2
 function addTask() {
     let taskText = taskInput.value.trim();
 
@@ -11,7 +12,7 @@ function addTask() {
         alert("Please enter a task");
         return;
     } 
-
+ 
     taskId++;
 
     let li = document.createElement("li");
@@ -22,26 +23,63 @@ function addTask() {
      <button class="delete-btn">Delete</button>
      <button class="edit-btn">Edit</button>
   `
-  let deleteBtn = li.querySelector(".delete-btn");
-  deleteBtn.addEventListener("click", function (){
-    let taskToDelete = document.getElementById(li.id);
-    taskToDelete.remove();
-  })
-
-  let editBtn = li.querySelector(".edit-btn");
-
     taskList.appendChild(li);
-    taskList.appendChild(deleteBtn);
-    taskList.appendChild(editBtn);
     taskInput.value = "";
+
+    let deleteBtn = li.querySelector(".delete-btn");
+    deleteBtn.addEventListener("click", function(){
+        li.remove();
+        return;
+    })
+
+    let editBtn = li.querySelector(".edit-btn");
+    editBtn.addEventListener("click", function(){
+        editInput = document.createElement("input");
+        editInput.value = li.querySelector("span").textContent;
+        li.querySelector("span").replaceWith(editInput);
+    
+        let saveBtn = document.createElement("button");
+        saveBtn.classList.add("save-btn");
+        saveBtn.textContent = "Save";
+        editBtn.replaceWith(saveBtn);
+        li.appendChild(saveBtn);
+
+        saveBtn.addEventListener("click", function(){
+            saveBtn.replaceWith(editBtn);
+            let updatedText = editInput.value.trim();
+            if(updatedText !== ""){
+                let span = document.createElement("span");
+                span.textContent = updatedText;
+                editInput.replaceWith(span);
+                saveBtn.remove();
+            }
+        });
+
+        editInput.addEventListener("keypress", function(event){
+            if(event.key === "Enter"){
+                let updatedText = editInput.value.trim();
+                if(updatedText !== ""){
+                    let span = document.createElement("span");
+                    span.textContent = updatedText;
+                    editInput.replaceWith(span);
+                    saveBtn.replaceWith(editBtn);
+                }
+            }
+        })
+    });
 }
 
+// 1
 addTaskBtn.addEventListener("click", addTask);
-
 taskInput.addEventListener("keypress", function(event){
     if(event.key === "Enter"){
         console.log(event.key);
         addTask();
     }
 });
+
+
+
+
+
 

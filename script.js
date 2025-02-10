@@ -45,13 +45,12 @@ function addTask() {
         li.appendChild(saveBtn);
 
         saveBtn.addEventListener("click", function(){
-            saveBtn.replaceWith(editBtn);
             let updatedText = editInput.value.trim();
             if(updatedText !== ""){
                 let span = document.createElement("span");
                 span.textContent = updatedText;
                 editInput.replaceWith(span);
-                saveBtn.remove();
+                saveBtn.replaceWith(editBtn);
             }
         });
 

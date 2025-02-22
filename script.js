@@ -1,84 +1,55 @@
-let taskInput = document.getElementById("task-input");
-let addTaskBtn = document.getElementById("add-task-btn");
-let taskList = document.getElementById("task-list");
+let taskInput = document.getElementById("task-input"); // input
+let addBtn = document.getElementById("add-task-btn"); // Add Button
+let taskList = document.getElementById("task-list") // ul
 
-let taskId = 0;
+let tasksArray = [];
 
-// 2
-function addTask() {
-    let taskText = taskInput.value.trim();
-
-    if(taskText === ""){
-        alert("Please enter a task");
-        return;
-    } 
- 
-    taskId++;
-
-    let li = document.createElement("li");
-    li.classList.add("task");
-    li.id = "task" + taskId; 
-    li.innerHTML = `
-     <span>${taskText}</span>
-     <button class="delete-btn">Delete</button>
-     <button class="edit-btn">Edit</button>
-  `
-    taskList.appendChild(li);
+addBtn.addEventListener("click", function(){
+    if(taskInput.value.trim() !== ""){
+    addTask();
     taskInput.value = "";
+}else{ 
+    alert("Pls enter a task");
+}
+})
 
-    let deleteBtn = li.querySelector(".delete-btn");
-    deleteBtn.addEventListener("click", function(){
-        li.remove();
-        return;
-    })
-
-    let editBtn = li.querySelector(".edit-btn");
-    editBtn.addEventListener("click", function(){
-        editInput = document.createElement("input");
-        editInput.value = li.querySelector("span").textContent;
-        li.querySelector("span").replaceWith(editInput);
-    
-        let saveBtn = document.createElement("button");
-        saveBtn.classList.add("save-btn");
-        saveBtn.textContent = "Save";
-        editBtn.replaceWith(saveBtn);
-        li.appendChild(saveBtn);
-
-        saveBtn.addEventListener("click", function(){
-            let updatedText = editInput.value.trim();
-            if(updatedText !== ""){
-                let span = document.createElement("span");
-                span.textContent = updatedText;
-                editInput.replaceWith(span);
-                saveBtn.replaceWith(editBtn);
-            }
-        });
-
-        editInput.addEventListener("keypress", function(event){
-            if(event.key === "Enter"){
-                let updatedText = editInput.value.trim();
-                if(updatedText !== ""){
-                    let span = document.createElement("span");
-                    span.textContent = updatedText;
-                    editInput.replaceWith(span);
-                    saveBtn.replaceWith(editBtn);
-                }
-            }
-        })
-    });
+function addTask(){
+    let inputText = taskInput.value;
+    let task = {id: Date.now(), taskName: inputText};
+    tasksArray.push(task);
+    console.log(tasksArray);
+    renderHtml();
 }
 
-// 1
-addTaskBtn.addEventListener("click", addTask);
-taskInput.addEventListener("keypress", function(event){
-    if(event.key === "Enter"){
-        console.log(event.key);
-        addTask();
-    }
-});
+function renderHtml(){
+    taskList.innerHTML = "";
 
+    tasksArray.forEach(task => {
+        let li = document.createElement("li");
+        li.classList.add("task");
+        taskList.appendChild(li);
 
+        let span = document.createElement("span");
+        span.textContent = task.taskName;
+        span.classList.add("task");
+        li.appendChild(span);
 
-
-
-
+        let editBtn = document.createElement("button");
+        editBtn.textContent = "edit"
+        editBtn.classList.add("edit-btn");
+        li.appendChild(editBtn);
+        editBtn.addEventListener("click", function(){
+            taskInput.value = task.taskName;
+        })
+        
+        let deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "delete"
+        deleteBtn.classList.add("delete-btn");
+        li.appendChild(deleteBtn);
+        deleteBtn.addEventListener("click", function(){
+            let index = tasksArray.findIndex(t => t.id === task.id)
+           tasksArray.splice(index, 1);
+           renderHtml();
+        })
+    })
+}

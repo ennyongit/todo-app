@@ -39,7 +39,15 @@ function renderHtml(){
         editBtn.classList.add("edit-btn");
         li.appendChild(editBtn);
         editBtn.addEventListener("click", function(){
-            taskInput.value = task.taskName;
+            if(editBtn.textContent === "edit"){
+           taskInput.value = task.taskName;
+           editBtn.textContent = "Save";
+            }else{
+                task.taskName = taskInput.value;
+                taskInput.value = "";
+                editBtn.textContent = "edit";
+                renderHtml();
+            }
         })
         
         let deleteBtn = document.createElement("button");
